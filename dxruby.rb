@@ -19,8 +19,7 @@ class Hose #インスタンス変数の初期化や設定などを行う
     end
 end
 Window.loop do #画像を表示するための処理
-@img_color = C_BLUE
+@img_color = C_GREEN
 test = Hose.new(100,100,Image.new(90,90,@img_color))
 test.update
 end
-s
