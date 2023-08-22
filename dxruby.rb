@@ -23,3 +23,4 @@ Window.loop do #画像を表示するための処理
 test = Hose.new(100,100,Image.new(90,90,@img_color))
 test.update
 end
+s
