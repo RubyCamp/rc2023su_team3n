@@ -43,4 +43,21 @@ Window.loop
 if color_number == 1 then
     color_status = 1
 end
-if status
+
+if color_number == 2
+    color_status = 2
+end
+
+if clor_number == 3
+    color_status = 3
+end    
+
+if color_number == 5
+    color_status = 5
+end    
+
+if color_number == 6
+    color_status = 6
+end  
+
+if color 

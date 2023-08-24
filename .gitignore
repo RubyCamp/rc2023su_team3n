@@ -1,56 +1,36 @@
-*.gem
-*.rbc
-/.config
-/coverage/
-/InstalledFiles
-/pkg/
-/spec/reports/
-/spec/examples.txt
-/test/tmp/
-/test/version_tmp/
-/tmp/
+require 'opencv'
 
-# Used by dotenv library to load environment variables.
-# .env
+include OpenCV
 
-# Ignore Byebug command history file.
-.byebug_history
+# カメラを開く
+capture = CvCapture.open
 
-## Specific to RubyMotion:
-.dat*
-.repl_history
-build/
-*.bridgesupport
-build-iPhoneOS/
-build-iPhoneSimulator/
+# ウィンドウを作成
+window = GUI::Window.new('Obstacle Detection')
 
-## Specific to RubyMotion (use of CocoaPods):
-#
-# We recommend against adding the Pods directory to your .gitignore. However
-# you should judge for yourself, the pros and cons are mentioned at:
-# https://guides.cocoapods.org/using/using-cocoapods.html#should-i-check-the-pods-directory-into-source-control
-#
-# vendor/Pods/
+while true
+  # フレームをキャプチャ
+  frame = capture.query
 
-## Documentation cache and generated files:
-/.yardoc/
-/_yardoc/
-/doc/
-/rdoc/
+  # BGR色空間に変換
+  bgr_frame = frame
 
-## Environment normalization:
-/.bundle/
-/vendor/bundle
-/lib/bundler/man/
+  # 赤色の範囲を指定（OpenCVではBGRの順序）
+  lower_bound = CvScalar.new(0, 0, 100)
+  upper_bound = CvScalar.new(50, 50, 255)
 
-# for a library or gem, you might want to ignore these files since the code is
-# intended to run in multiple environments; otherwise, check them in:
-# Gemfile.lock
-# .ruby-version
-# .ruby-gemset
+  # 指定した色の範囲内のピクセルを検出
+  mask = bgr_frame.in_range(lower_bound, upper_bound)
 
-# unless supporting rvm < 1.11.0 or doing something fancy, ignore this:
-.rvmrc
+  # マスクを使ってオリジナルフレームと重ね合わせ
+  result = frame.and(mask)
 
-# Used by RuboCop. Remote config files pulled in from inherit_from directive.
-# .rubocop-https?--*
+  # ウィンドウに表示
+  window.show(result)
+
+  # 'q' キーが押されたら終了
+  break if GUI::wait_key(1) == 'q'
+end
+
+# カメラを解放
+capture.release
