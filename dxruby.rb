@@ -4,22 +4,12 @@ Window.bgcolor = C_WHITE
 @img_color = C_BLUE
 @img_waku = C_BLACK
 color_number = [C_BLUE,C_GREEN,C_RED,C_WHITE]#色の配列
+@map_hairetu = []
 @z = 0
 @a = 100
 @b = 0
 @x = 100
 @y = 0
-class Waku #黒枠を配置するための処理
-    def initialize(a,b,z)
-        @a = a
-        @b = b
-        @z = z
-    end
-    def update()
-     Sprite.new(@a,@b,Image.new(100,100,C_BLACK)).draw
-    end
-end
-
 class Hose #インスタンス変数の初期化や設定などを行う
     def initialize(x,y,img_color)
         @x = x
@@ -53,8 +43,6 @@ Window.loop do
      if @z < 12 &&  @z > 9 then#y軸を上にする。
         @b -= 100
      end
-     test1 = Waku.new(@a,@b,@z)
-     test1.update
      Sprite.new(@a,@b,Image.new(100,100,C_BLACK)).draw
     end    
     if @img_color != C_BLACK then #中の色を表示するための処理
@@ -83,8 +71,16 @@ Window.loop do
      test2 = Hose.new(@x,@y,Image.new(90,90,@img_color))
      test2.update
      @img_waku = C_BLACK#後で消す
-     sleep(1)
+     sleep(0.5)
+     @H = @z
      @z += 1
      puts @z
      end
+     if @z == 12 then
+        @z = 0
+        @a = 100
+        @b = 0
+        @x = 100
+        @y = 0
+    end
 end
